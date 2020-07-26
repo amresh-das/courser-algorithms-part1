@@ -1,0 +1,116 @@
+See the Assessment Guide for information on how to interpret this report.
+
+ASSESSMENT SUMMARY
+
+Compilation:  PASSED (0 errors, 1 warning)
+API:          PASSED
+
+Spotbugs:     FAILED (2 warnings)
+PMD:          FAILED (2 warnings)
+Checkstyle:   FAILED (1 error, 5 warnings)
+
+Correctness:  No tests available for autograding.
+Memory:       No tests available for autograding.
+Timing:       No tests available for autograding.
+
+Aggregate score: 10.00%
+[Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
+
+ASSESSMENT DETAILS
+
+The following files were submitted:
+----------------------------------
+3.5K Jan 25 22:26 queues.Deque.java
+ 451 Jan 25 22:26 queues.Permutation.java
+4.4K Jan 25 22:26 queues.RandomizedQueue.java
+
+
+********************************************************************************
+*  COMPILING
+********************************************************************************
+
+
+% javac11 queues.Deque.java
+*-----------------------------------------------------------
+
+% javac11 queues.RandomizedQueue.java
+*-----------------------------------------------------------
+queues.RandomizedQueue.java:94: warning: [unchecked] unchecked cast
+            items = (Item[]) new Object[size];
+                             ^
+  required: Item[]
+  found:    Object[]
+  where Item is a type-variable:
+    Item extends Object declared in class queues.RandomizedQueue
+1 warning
+
+% javac11 queues.Permutation.java
+*-----------------------------------------------------------
+
+
+================================================================
+
+
+Checking the APIs of your programs.
+*-----------------------------------------------------------
+queues.Deque:
+
+queues.RandomizedQueue:
+
+queues.Permutation:
+
+================================================================
+
+
+********************************************************************************
+*  CHECKING STYLE AND COMMON BUG PATTERNS
+********************************************************************************
+
+
+% spotbugs *.class
+*-----------------------------------------------------------
+M B IT_NO_SUCH_ELEMENT It: The 'next()' method must throw a 'java.util.NoSuchElementException' if it is called when there are no more elements to return.  At queues.RandomizedQueue.java:[lines 108-115]
+M B IT_NO_SUCH_ELEMENT It: The 'next()' method must throw a 'java.util.NoSuchElementException' if it is called when there are no more elements to return.  At queues.Deque.java:[lines 95-97]
+Warnings generated: 2
+
+
+================================================================
+
+
+% pmd .
+*-----------------------------------------------------------
+queues.RandomizedQueue.java:51: Avoid using assignment statements in expressions; this can make code harder to read. [AssignmentInOperand]
+queues.RandomizedQueue.java:126: Array initialization can be written shorter [UseShortArrayInitializer]
+PMD ends with 2 warnings.
+
+
+================================================================
+
+
+% checkstyle *.java
+*-----------------------------------------------------------
+[WARN] queues.Deque.java:31:26: Inner assignments should be avoided. [InnerAssignment]
+[WARN] queues.Deque.java:45:26: Inner assignments should be avoided. [InnerAssignment]
+[WARN] queues.RandomizedQueue.java:44:9: 'if' is not followed by whitespace. [WhitespaceAround]
+[WARN] queues.RandomizedQueue.java:131:9: 'for' is not followed by whitespace. [WhitespaceAround]
+[WARN] queues.RandomizedQueue.java:139:9: 'for' is not followed by whitespace. [WhitespaceAround]
+Checkstyle ends with 0 errors and 5 warnings.
+
+% custom checkstyle checks for queues.Deque.java
+*-----------------------------------------------------------
+
+% custom checkstyle checks for queues.RandomizedQueue.java
+*-----------------------------------------------------------
+[INFO] queues.RandomizedQueue.java:67: Using a loop in this method might be a performance bug. [Performance]
+[INFO] queues.RandomizedQueue.java:109: Using a loop in this method might be a performance bug. [Performance]
+
+% custom checkstyle checks for queues.Permutation.java
+*-----------------------------------------------------------
+[ERROR] queues.Permutation.java:8:32: Do not call 'StdIn.readLine()' in this program. Use only 'StdIn.readString()'. [IllegalMethodCall]
+Checkstyle ends with 1 error and 0 warnings.
+
+
+================================================================
+
+
+ABORTING: you must fix any Checkstyle errors (not warnings).

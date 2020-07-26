@@ -1,0 +1,889 @@
+See the Assessment Guide for information on how to interpret this report.
+
+ASSESSMENT SUMMARY
+
+Compilation:  PASSED
+API:          PASSED
+
+Spotbugs:     FAILED (5 warnings)
+PMD:          FAILED (5 warnings)
+Checkstyle:   FAILED (0 errors, 7 warnings)
+
+Correctness:  21/33 tests passed
+Memory:       2/8 tests passed
+Timing:       2/20 tests passed
+
+Aggregate score: 52.68%
+[Compilation: 5%, API: 5%, Spotbugs: 0%, PMD: 0%, Checkstyle: 0%, Correctness: 60%, Memory: 10%, Timing: 20%]
+
+ASSESSMENT DETAILS
+
+The following files were submitted:
+----------------------------------
+3.5K Jan 18 21:30 percolation.Percolation.java
+2.1K Jan 18 21:30 percolation.PercolationStats.java
+
+
+********************************************************************************
+*  COMPILING
+********************************************************************************
+
+
+% javac11 percolation.Percolation.java
+*-----------------------------------------------------------
+
+% javac11 percolation.PercolationStats.java
+*-----------------------------------------------------------
+
+
+================================================================
+
+
+Checking the APIs of your programs.
+*-----------------------------------------------------------
+percolation.Percolation:
+
+percolation.PercolationStats:
+
+================================================================
+
+
+********************************************************************************
+*  CHECKING STYLE AND COMMON BUG PATTERNS
+********************************************************************************
+
+
+% spotbugs *.class
+*-----------------------------------------------------------
+M P NAB_NEEDLESS_BOOLEAN_CONSTANT_CONVERSION NAB: Method new percolation.Percolation(int) needlessly boxes a boolean constant  At percolation.Percolation.java:[line 8]
+M P NAB_NEEDLESS_BOOLEAN_CONSTANT_CONVERSION NAB: Method new percolation.Percolation(int) needlessly boxes a boolean constant  At percolation.Percolation.java:[line 9]
+M P NAB_NEEDLESS_BOOLEAN_CONSTANT_CONVERSION NAB: Method percolation.Percolation.main(String[]) needlessly boxes a boolean constant  At percolation.Percolation.java:[line 108]
+M B RC_REF_COMPARISON_BAD_PRACTICE_BOOLEAN RC: Uses reference equality to compare two objects of type 'Boolean'. Did you mean to use object equality and call the 'equals()' method?  At percolation.Percolation.java:[line 61]
+L C UWF_NULL_FIELD UwF: The instance (or static) variable 'CLOSED' is never assigned a non-null value.  In percolation.Percolation.java
+Warnings generated: 5
+
+
+================================================================
+
+
+% pmd .
+*-----------------------------------------------------------
+percolation.Percolation.java:7: This instance variable should be turned into a class constant by adding the 'static' modifier. [FinalFieldCouldBeStatic]
+percolation.Percolation.java:8: This instance variable should be turned into a class constant by adding the 'static' modifier. [FinalFieldCouldBeStatic]
+percolation.Percolation.java:9: This instance variable should be turned into a class constant by adding the 'static' modifier. [FinalFieldCouldBeStatic]
+percolation.PercolationStats.java:6: The private instance (or static) variable 'samples' can be made 'final'; it is initialized only in the declaration or constructor. [ImmutableField]
+percolation.PercolationStats.java:7: The private instance (or static) variable 'trials' can be made 'final'; it is initialized only in the declaration or constructor. [ImmutableField]
+PMD ends with 5 warnings.
+
+
+================================================================
+
+
+% checkstyle *.java
+*-----------------------------------------------------------
+[WARN] percolation.Percolation.java:7:19: Use the primitive type 'boolean' instead of the wrapper type 'Boolean'. [Wrapper]
+[WARN] percolation.Percolation.java:7:27: The instance variable 'CLOSED' must start with a lowercase letter and use camelCase. [MemberName]
+[WARN] percolation.Percolation.java:8:19: Use the primitive type 'boolean' instead of the wrapper type 'Boolean'. [Wrapper]
+[WARN] percolation.Percolation.java:8:27: The instance variable 'OPEN' must start with a lowercase letter and use camelCase. [MemberName]
+[WARN] percolation.Percolation.java:9:19: Use the primitive type 'boolean' instead of the wrapper type 'Boolean'. [Wrapper]
+[WARN] percolation.Percolation.java:9:27: The instance variable 'FULL' must start with a lowercase letter and use camelCase. [MemberName]
+Checkstyle ends with 0 errors and 6 warnings.
+
+% custom checkstyle checks for percolation.Percolation.java
+*-----------------------------------------------------------
+[INFO] percolation.Percolation.java:75: Using a loop in this method might be a performance bug. [Performance]
+
+% custom checkstyle checks for percolation.PercolationStats.java
+*-----------------------------------------------------------
+[WARN] percolation.PercolationStats.java:1:1: The constant '1.96' appears more than once. Define a constant variable (such as 'CONFIDENCE_95') to hold the constant '1.96'. [NumericLiteralCount]
+Checkstyle ends with 0 errors and 1 warning.
+
+
+================================================================
+
+
+********************************************************************************
+*  TESTING CORRECTNESS
+********************************************************************************
+
+Testing correctness of percolation.Percolation
+*-----------------------------------------------------------
+Running 18 total tests.
+
+Tests 1 through 8 create a percolation.Percolation object using your code, then repeatedly
+open sites by calling open(). After each call to open(), it checks the return
+values of isOpen(), percolates(), numberOfOpenSites(), and isFull() in that order.
+Tests 11 through 14 create a percolation.Percolation object using your code, then repeatedly
+call the methods open(), isOpen(), isFull(), percolates(), and, numberOfOpenSites()
+in random order with probabilities p = (p1, p2, p3, p4, p5). The tests stop
+immediately after the system percolates.
+
+Tests 16 through 18 test backwash.
+
+Except as noted, a site is opened at most once.
+
+Test 1: open predetermined list of sites using file inputs
+  * filename = input6.txt
+  * filename = input8.txt
+  * filename = input8-no.txt
+  * filename = input10-no.txt
+  * filename = greeting57.txt
+  * filename = heart25.txt
+==> passed
+
+Test 2: open random sites until just before system percolates
+  * n = 3
+  * n = 5
+  * n = 10
+  * n = 10
+  * n = 20
+  * n = 20
+  * n = 50
+  * n = 50
+==> passed
+
+Test 3: open predetermined sites for n = 1 and n = 2 (corner case test)
+  * filename = input1.txt
+  * filename = input1-no.txt
+  * filename = input2.txt
+  * filename = input2-no.txt
+==> passed
+
+Test 4: check predetermined sites with long percolating path
+  * filename = snake13.txt
+  * filename = snake101.txt
+==> passed
+
+Test 5: open every site
+  * filename = input5.txt
+==> passed
+
+Test 6: open random sites until just before system percolates,
+        allowing open() to be called on a site more than once
+  * n = 3
+  * n = 5
+  * n = 10
+  * n = 10
+  * n = 20
+  * n = 20
+  * n = 50
+  * n = 50
+==> passed
+
+Test 7: call methods with invalid arguments
+  * n = 10, (row, col) = (-1, 5)
+  * n = 10, (row, col) = (11, 5)
+  * n = 10, (row, col) = (0, 5)
+  * n = 10, (row, col) = (5, -1)
+  * n = 10, (row, col) = (5, 11)
+  * n = 10, (row, col) = (5, 0)
+  * n = 10, (row, col) = (-2147483648, -2147483648)
+  * n = 10, (row, col) = (2147483647, 2147483647)
+==> passed
+
+Test 8: call constructor with invalid argument
+  * n = -10
+  * n = -1
+  * n = 0
+==> passed
+
+Test 9: create multiple percolation.Percolation objects at the same time
+        (to make sure you didn't store data in static variables)
+==> passed
+
+Test 10: open predetermined list of sites using file inputs,
+         but permute the order in which methods are called
+  * filename = input8.txt;  order =     isFull(),     isOpen(), percolates()
+  * filename = input8.txt;  order =     isFull(), percolates(),     isOpen()
+  * filename = input8.txt;  order =     isOpen(),     isFull(), percolates()
+  * filename = input8.txt;  order =     isOpen(), percolates(),     isFull()
+  * filename = input8.txt;  order = percolates(),     isOpen(),     isFull()
+  * filename = input8.txt;  order = percolates(),     isFull(),     isOpen()
+==> passed
+
+Test 11: call open(), isOpen(), and numberOfOpenSites()
+         in random order until system percolates
+  * n = 3, trials = 40, p = (0.4, 0.4, 0.0, 0.0, 0.3)
+  * n = 5, trials = 20, p = (0.4, 0.4, 0.0, 0.0, 0.3)
+  * n = 7, trials = 10, p = (0.4, 0.4, 0.0, 0.0, 0.3)
+  * n = 10, trials = 5, p = (0.4, 0.4, 0.0, 0.0, 0.3)
+  * n = 20, trials = 2, p = (0.4, 0.4, 0.0, 0.0, 0.3)
+  * n = 50, trials = 1, p = (0.4, 0.4, 0.0, 0.0, 0.3)
+==> passed
+
+Test 12: call open() and percolates() in random order until system percolates
+  * n = 3, trials = 40, p = (0.5, 0.0, 0.0, 0.5, 0.0)
+  * n = 5, trials = 20, p = (0.5, 0.0, 0.0, 0.5, 0.0)
+  * n = 7, trials = 10, p = (0.5, 0.0, 0.0, 0.5, 0.0)
+  * n = 10, trials = 5, p = (0.5, 0.0, 0.0, 0.5, 0.0)
+  * n = 20, trials = 2, p = (0.5, 0.0, 0.0, 0.5, 0.0)
+  * n = 50, trials = 1, p = (0.5, 0.0, 0.0, 0.5, 0.0)
+==> passed
+
+Test 13: call open() and isFull() in random order until system percolates
+  * n = 3, trials = 40, p = (0.5, 0.0, 0.5, 0.0, 0.0)
+  * n = 5, trials = 20, p = (0.5, 0.0, 0.5, 0.0, 0.0)
+  * n = 7, trials = 10, p = (0.5, 0.0, 0.5, 0.0, 0.0)
+  * n = 10, trials = 5, p = (0.5, 0.0, 0.5, 0.0, 0.0)
+  * n = 20, trials = 2, p = (0.5, 0.0, 0.5, 0.0, 0.0)
+  * n = 50, trials = 1, p = (0.5, 0.0, 0.5, 0.0, 0.0)
+==> passed
+
+Test 14: call all methods in random order until system percolates
+  * n = 3, trials = 40, p = (0.2, 0.2, 0.2, 0.2, 0.2)
+  * n = 5, trials = 20, p = (0.2, 0.2, 0.2, 0.2, 0.2)
+  * n = 7, trials = 10, p = (0.2, 0.2, 0.2, 0.2, 0.2)
+  * n = 10, trials = 5, p = (0.2, 0.2, 0.2, 0.2, 0.2)
+  * n = 20, trials = 2, p = (0.2, 0.2, 0.2, 0.2, 0.2)
+  * n = 50, trials = 1, p = (0.2, 0.2, 0.2, 0.2, 0.2)
+==> passed
+
+Test 15: call all methods in random order until almost all sites are open,
+         but with inputs not prone to backwash
+  * n = 3
+  * n = 5
+  * n = 7
+  * n = 10
+  * n = 20
+  * n = 50
+==> passed
+
+Test 16: check for backwash with predetermined sites
+  * filename = input20.txt
+  * filename = input10.txt
+  * filename = input50.txt
+  * filename = jerry47.txt
+  * filename = sedgewick60.txt
+  * filename = wayne98.txt
+==> passed
+
+Test 17: check for backwash with predetermined sites that have
+         multiple percolating paths
+  * filename = input3.txt
+  * filename = input4.txt
+  * filename = input7.txt
+==> passed
+
+Test 18: call all methods in random order until all sites are open,
+         allowing isOpen() to be called on a site more than once
+         (these inputs are prone to backwash)
+  * n = 3
+  * n = 5
+  * n = 7
+  * n = 10
+  * n = 20
+  * n = 50
+==> passed
+
+
+Total: 18/18 tests passed!
+
+
+================================================================
+********************************************************************************
+*  TESTING CORRECTNESS (substituting reference percolation.Percolation)
+********************************************************************************
+
+Testing correctness of percolation.PercolationStats
+*-----------------------------------------------------------
+Running 15 total tests.
+
+Test 1: check that methods in percolation.PercolationStats do not print to standard output
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkSideEffects(TestPercolationStats.java:71)
+    TestPercolationStats.test1(TestPercolationStats.java:763)
+    TestPercolationStats.main(TestPercolationStats.java:922)
+
+==> FAILED
+
+Test 2: check that mean() returns value in expected range
+  * n =   2, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkMeanCorrect(TestPercolationStats.java:219)
+    TestPercolationStats.test2(TestPercolationStats.java:769)
+    TestPercolationStats.main(TestPercolationStats.java:925)
+
+  * n =   5, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkMeanCorrect(TestPercolationStats.java:219)
+    TestPercolationStats.test2(TestPercolationStats.java:770)
+    TestPercolationStats.main(TestPercolationStats.java:925)
+
+  * n =  10, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkMeanCorrect(TestPercolationStats.java:219)
+    TestPercolationStats.test2(TestPercolationStats.java:771)
+    TestPercolationStats.main(TestPercolationStats.java:925)
+
+  * n =  25, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 25 out of bounds for length 25
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkMeanCorrect(TestPercolationStats.java:219)
+    TestPercolationStats.test2(TestPercolationStats.java:772)
+    TestPercolationStats.main(TestPercolationStats.java:925)
+
+==> FAILED
+
+Test 3: check that stddev() returns value in expected range
+  * n =   2, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkStddevCorrect(TestPercolationStats.java:260)
+    TestPercolationStats.test3(TestPercolationStats.java:778)
+    TestPercolationStats.main(TestPercolationStats.java:928)
+
+  * n =   5, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkStddevCorrect(TestPercolationStats.java:260)
+    TestPercolationStats.test3(TestPercolationStats.java:779)
+    TestPercolationStats.main(TestPercolationStats.java:928)
+
+  * n =  10, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkStddevCorrect(TestPercolationStats.java:260)
+    TestPercolationStats.test3(TestPercolationStats.java:780)
+    TestPercolationStats.main(TestPercolationStats.java:928)
+
+  * n =  25, trials = 10000
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 25 out of bounds for length 25
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkStddevCorrect(TestPercolationStats.java:260)
+    TestPercolationStats.test3(TestPercolationStats.java:781)
+    TestPercolationStats.main(TestPercolationStats.java:928)
+
+==> FAILED
+
+Test 4: check that percolation.PercolationStats creates trials percolation.Percolation objects, each of size n-by-n
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkGridSizes(TestPercolationStats.java:109)
+    TestPercolationStats.test4(TestPercolationStats.java:790)
+    TestPercolationStats.main(TestPercolationStats.java:931)
+
+==> FAILED
+
+Test 5: check that percolation.PercolationStats calls open() until system percolates
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkPercolatesBefore(TestPercolationStats.java:139)
+    TestPercolationStats.test5(TestPercolationStats.java:799)
+    TestPercolationStats.main(TestPercolationStats.java:934)
+
+==> FAILED
+
+Test 6: check that percolation.PercolationStats does not call open() after system percolates
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkPercolatesAfter(TestPercolationStats.java:164)
+    TestPercolationStats.test6(TestPercolationStats.java:808)
+    TestPercolationStats.main(TestPercolationStats.java:937)
+
+==> FAILED
+
+Test 7: check that mean() is consistent with the number of intercepted calls to open()
+        on blocked sites
+  * n =  20, trials =  10
+    - percolation.PercolationStats mean = 0.29337499999999994
+    - total calls to open() / (n*n*T) = 0.5867499999999999
+
+  * n =  50, trials =  20
+    - percolation.PercolationStats mean = 0.23683200000000004
+    - total calls to open() / (n*n*T) = 0.59208
+
+  * n = 100, trials =  50
+    - percolation.PercolationStats mean = 0.29611800000000005
+    - total calls to open() / (n*n*T) = 0.5922360000000001
+
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkMeanConsistent(TestPercolationStats.java:294)
+    TestPercolationStats.test7(TestPercolationStats.java:818)
+    TestPercolationStats.main(TestPercolationStats.java:940)
+
+==> FAILED
+
+Test 8: check that stddev() is consistent with the number of intercepted calls to open()
+        on blocked sites
+  * n =  20, trials =  10
+    - student percolation.PercolationStats stddev()                  = 0.3001715244305284
+    - anticipated sample stddev   from intercepted calls = 0.04330848646628047
+    - anticipated sample variance from intercepted calls = 0.0018756249999999988
+  * n =  50, trials =  20
+    - student percolation.PercolationStats stddev()                  = 0.29607565100556194
+    - anticipated sample stddev   from intercepted calls = 0.03259799154290919
+    - anticipated sample variance from intercepted calls = 0.0010626290526315793
+  * n = 100, trials =  50
+    - student percolation.PercolationStats stddev()                  = 0.29857049851219086
+    - anticipated sample stddev   from intercepted calls = 0.019441934060170047
+    - anticipated sample variance from intercepted calls = 3.7798880000000016E-4
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkStddevConsistent(TestPercolationStats.java:324)
+    TestPercolationStats.test8(TestPercolationStats.java:828)
+    TestPercolationStats.main(TestPercolationStats.java:943)
+
+==> FAILED
+
+Test 9: check that confidenceLo() and confidenceHigh() are consistent with mean() and stddev()
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkConfidenceConsistent(TestPercolationStats.java:358)
+    TestPercolationStats.test9(TestPercolationStats.java:837)
+    TestPercolationStats.main(TestPercolationStats.java:946)
+
+==> FAILED
+
+Test 10: check that exception is thrown if either n or trials is out of bounds
+  * n = -23, trials =  42
+  * n =  23, trials =   0
+  * n = -42, trials =   0
+  * n =  42, trials =  -1
+  * n = -2147483648, trials = -2147483648
+==> passed
+
+Test 11: create two percolation.PercolationStats objects at the same time and check mean()
+         (to make sure you didn't store data in static variables)
+  * n1 =  50, trials1 =  10, n2 =  50, trials2 =   5
+    - percolation.PercolationStats object 1 mean = 0.11634399999999999
+    - total calls to open() / (n1*n1*T1)  = 0.58172
+
+  * n1 =  50, trials1 =   5, n2 =  50, trials2 =  10
+    - percolation.PercolationStats object 1 mean = 0.060152000000000004
+    - total calls to open() / (n1*n1*T1)  = 0.60152
+
+  * n1 =  50, trials1 =  10, n2 =  25, trials2 =  10
+    - percolation.PercolationStats object 1 mean = 0.12036000000000001
+    - total calls to open() / (n1*n1*T1)  = 0.6018000000000001
+
+  * n1 =  25, trials1 =  10, n2 =  50, trials2 =  10
+    - percolation.PercolationStats object 1 mean = 0.241664
+    - total calls to open() / (n1*n1*T1)  = 0.60416
+
+  * n1 =  50, trials1 =  10, n2 =  15, trials2 = 100
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 15 out of bounds for length 15
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkTwoPercolationStats(TestPercolationStats.java:405)
+    TestPercolationStats.test11(TestPercolationStats.java:860)
+    TestPercolationStats.main(TestPercolationStats.java:952)
+
+  * n1 =  15, trials1 = 100, n2 =  50, trials2 =  10
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 15 out of bounds for length 15
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkTwoPercolationStats(TestPercolationStats.java:396)
+    TestPercolationStats.test11(TestPercolationStats.java:861)
+    TestPercolationStats.main(TestPercolationStats.java:952)
+
+==> FAILED
+
+Test 12: check that the methods return the same value, regardless of
+         the order in which they are called
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TestPercolationStats.checkImmutability(TestPercolationStats.java:441)
+    TestPercolationStats.test12(TestPercolationStats.java:873)
+    TestPercolationStats.main(TestPercolationStats.java:955)
+
+==> FAILED
+
+Test 13: check that no calls to StdRandom.setSeed()
+  * n = 20, trials = 10
+  * n = 20, trials = 10
+  * n = 40, trials = 10
+  * n = 80, trials = 10
+==> passed
+
+Test 14: check distribution of number of sites opened until percolation
+  * n = 2, trials = 100000
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+                2     66561   33333.0      92063.30
+                3         0   66667.0          0.00
+        -------------------------------------------
+                      66561  100000.0      92063.30
+
+    G-statistic = 92063.30 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+
+  * n = 3, trials = 100000
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+                3         0    3571.0          0.00
+                4         0   13889.0          0.00
+                5         0   29365.0          0.00
+                6         0   32937.0          0.00
+                7         0   20238.0          0.00
+        -------------------------------------------
+                          0  100000.0          0.00
+
+    G-statistic = 0.00 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+
+  * n = 4, trials = 100000
+
+            value  observed  expected   2*O*ln(O/E)
+        -------------------------------------------
+                4         0     220.0          0.00
+                5         0    1154.0          0.00
+                6         0    3497.0          0.00
+                7         0    7822.0          0.00
+                8         0   13850.0          0.00
+                9         0   19542.0          0.00
+               10         0   21522.0          0.00
+               11         0   17924.0          0.00
+               12         0   10733.0          0.00
+               13         0    3736.0          0.00
+        -------------------------------------------
+                          0  100000.0          0.00
+
+    G-statistic = 0.00 (p-value = 0.000000, reject if p-value <= 0.0001)
+    Note: a correct solution will fail this test by bad luck 1 time in 10,000.
+
+
+==> FAILED
+
+Test 15: check that each site is opened the expected number of times
+  * n = 2, trials = 100000
+  * n = 3, trials = 100000
+  * n = 4, trials = 100000
+==> passed
+
+
+Total: 3/15 tests passed!
+
+
+================================================================
+********************************************************************************
+*  MEMORY (substituting reference percolation.Percolation)
+********************************************************************************
+
+Analyzing memory of percolation.PercolationStats
+*-----------------------------------------------------------
+Running 4 total tests.
+
+Test 1a-1d: check memory usage as a function of T trials for n = 100
+            (max allowed: 8*T + 128 bytes)
+
+                 T        bytes
+--------------------------------------------
+=> FAILED       16          856   (3.3x)
+=> FAILED       32          856   (2.2x)
+=> FAILED       64          856   (1.3x)
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 100 out of bounds for length 100
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    MemoryOfPercolationStats.main(MemoryOfPercolationStats.java:80)
+
+==> 0/4 tests passed
+
+
+If you failed this test, it may be because you are holding an unnecessary
+reference to a (large) percolation.Percolation object in an instance variable. Would
+storing it in a local variable suffice?
+
+
+Estimated student memory = 0.00 T^3 - 0.04 T^2 - 2.04 T + 988.02   (R^2 = 0.865)
+
+Total: 0/4 tests passed!
+
+
+================================================================
+
+
+
+********************************************************************************
+*  TIMING (substituting reference percolation.Percolation)
+********************************************************************************
+
+Timing percolation.PercolationStats
+*-----------------------------------------------------------
+Running 4 total tests.
+
+Test 1: count calls to StdStats.mean() and StdStats.stddev()
+  * n =  20, trials =  10
+    - calls StdStats.mean() the wrong number of times
+    - number of student   calls to StdStats.mean() = 3
+    - number of reference calls to StdStats.mean() = 1
+
+    - calls StdStats.stddev() the wrong number of times
+    - number of student   calls to StdStats.stddev() = 3
+    - number of reference calls to StdStats.stddev() = 1
+
+  * n =  50, trials =  20
+    - calls StdStats.mean() the wrong number of times
+    - number of student   calls to StdStats.mean() = 3
+    - number of reference calls to StdStats.mean() = 1
+
+    - calls StdStats.stddev() the wrong number of times
+    - number of student   calls to StdStats.stddev() = 3
+    - number of reference calls to StdStats.stddev() = 1
+
+  * n = 100, trials =  50
+    - calls StdStats.mean() the wrong number of times
+    - number of student   calls to StdStats.mean() = 3
+    - number of reference calls to StdStats.mean() = 1
+
+    - calls StdStats.stddev() the wrong number of times
+    - number of student   calls to StdStats.stddev() = 3
+    - number of reference calls to StdStats.stddev() = 1
+
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TimePercolationStats.countCallsToStdStats(TimePercolationStats.java:34)
+    TimePercolationStats.test1(TimePercolationStats.java:239)
+    TimePercolationStats.main(TimePercolationStats.java:313)
+
+==> FAILED
+
+Test 2: count calls to methods in StdRandom
+  * n = 20, trials = 10
+  * n = 20, trials = 10
+  * n = 40, trials = 10
+  * n = 80, trials = 10
+==> passed
+
+Test 3: count calls to methods in percolation.Percolation
+  * n =  20, trials =  10
+  * n =  50, trials =  20
+  * n = 100, trials =  50
+  * n =  64, trials = 150
+
+    java.lang.ArrayIndexOutOfBoundsException: Index 64 out of bounds for length 64
+
+    percolation.PercolationStats.<init>(percolation.PercolationStats.java:23)
+    TimePercolationStats.countCallsToPercolation(TimePercolationStats.java:124)
+    TimePercolationStats.test3(TimePercolationStats.java:258)
+    TimePercolationStats.main(TimePercolationStats.java:319)
+
+==> FAILED
+
+Test 4: Call percolation.PercolationStats methods with trials = 3 and values of n that go up
+        by a factor of sqrt(2). The test passes when n reaches 2,896.
+
+     The approximate order-of-growth is n ^ (log ratio)
+
+         n  seconds log ratio
+     ------------------------
+       724     0.14       1.8
+      1024     0.32       2.3
+      1448     0.83       2.8
+      2048     2.00       2.5
+      2896     4.79       2.5
+==> passed
+
+
+Total: 2/4 tests passed!
+
+
+================================================================
+
+
+
+********************************************************************************
+*  MEMORY
+********************************************************************************
+
+Analyzing memory of percolation.Percolation
+*-----------------------------------------------------------
+Running 4 total tests.
+
+Test 1a-1d: check that total memory <= 17 n^2 + 128 n + 1024 bytes
+
+                 n        bytes
+--------------------------------------------
+=> passed       64        65792
+=> passed      256      1048832
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to methods in WeightedQuickUnionUF exceeds limit: 100000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+Total: 2/4 tests passed!
+
+
+================================================================
+
+
+
+********************************************************************************
+*  TIMING
+********************************************************************************
+
+Timing percolation.Percolation
+*-----------------------------------------------------------
+Running 16 total tests.
+
+Test 1a-1e: Creates an n-by-n percolation system; open sites at random until
+            the system percolates, interleaving calls to percolates() and open().
+            Count calls to connected(), union() and find().
+
+                                       2 * connected()
+                 n       union()              + find()        constructor
+-----------------------------------------------------------------------------------
+=> FAILED       16          167                  4740   (2.6x)          1
+=> FAILED       32          652                 36786   (5.0x)          1
+=> FAILED       64         2917                313218  (10.6x)          1
+=> FAILED      128        10560               2386020  (20.2x)          1
+=> FAILED      256        44156              19482060  (41.3x)          1
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to methods in WeightedQuickUnionUF exceeds limit: 100000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+==> 0/7 tests passed
+
+
+If one of the values in the table violates the performance limits
+the factor by which you failed the test appears in parentheses.
+For example, (9.6x) in the union() column indicates that it uses
+9.6x too many calls.
+
+
+Tests 2a-2f: Check whether the number of calls to union(), connected(), and find()
+             is a constant per call to open(), isOpen(), isFull(), and percolates().
+             The table shows the maximum number of union(), connected(), and
+             find() calls made during a single call to open(), isOpen(), isFull(),
+             and percolates().
+
+                 n     per open()      per isOpen()    per isFull()    per percolates()
+---------------------------------------------------------------------------------------------
+=> FAILED       16        4               0               2              32   (1.3x)
+=> FAILED       32        4               0               2              64   (2.7x)
+=> FAILED       64        4               0               2             128   (5.3x)
+=> FAILED      128        4               0               2             256  (10.7x)
+=> FAILED      256        4               0               2             512  (21.3x)
+=> FAILED      512        4               0               2            1024  (42.7x)
+=> FAILED     1024        4               0               2            2048  (85.3x)
+==> 0/7 tests passed
+
+
+
+Running time (in seconds) depends on the machine on which the script runs.
+
+
+Test 3: Create an n-by-n percolation system; interleave calls to percolates()
+        and open() until the system percolates. The values of n go up by a
+        factor of sqrt(2). The test is passed if n >= 4096 in under 10 seconds.
+
+     The approximate order-of-growth is n ^ (log ratio)
+
+                        log   union-find     log
+         n  seconds   ratio   operations   ratio
+     -------------------------------------------
+       256     0.10     3.0     19810782     3.0
+       362     0.28     3.0     56406198     3.0
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to methods in WeightedQuickUnionUF exceeds limit: 100000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+==> FAILED
+
+
+
+Test 4: Create an n-by-n percolation system; interleave calls to open(),
+        percolates(), isOpen(), isFull(), and numberOfOpenSites() until.
+        the system percolates. The values of n go up by a factor of sqrt(2).
+        The test is passed if n >= 4096 in under 10 seconds.
+
+                        log   union-find     log
+         n  seconds   ratio   operations   ratio
+     -------------------------------------------
+       256     0.11     2.8     20562520     3.0
+       362     0.29     2.9     56619438     2.9
+
+
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+        OperationCountLimitExceededException
+        Number of calls to methods in WeightedQuickUnionUF exceeds limit: 100000000
+        ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+==> FAILED
+
+
+Total: 0/16 tests passed!
+
+
+================================================================
